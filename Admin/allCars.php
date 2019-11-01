@@ -1,0 +1,42 @@
+<?php 
+	session_start();
+	if(!isset($_SESSION["Admin"])){
+		header("Location: ../index.php");
+		die;
+	}
+	require_once("../Models/DBConnect.php");
+	require_once("../Models/Cars.php");
+	include("../Views/header2.php");
+	$cars = getAllCars();
+ ?>
+	
+<div class="row">
+	<div class="col s12 m10 offset-m1">
+		<h5>All Cars</h5>
+		<hr />
+		<div class="row">
+			<?php foreach($cars as $car): ?>
+				<div class="col s12 m4 l3">
+					<div class="card white">
+        				<div class="card-content black-text">
+        					<img src="../images/<?php echo $car["ImageName"]; ?>" height="200px" width="100%" alt="image of car" />
+        					<hr />
+							<h5><?php echo $car["CarName"]; ?></h5>
+							<p>Model: <?php echo $car["ModelType"]; ?></p>
+							<p>Total Mileage: <?php echo $car['TotalMileage']; ?> Miles</p>
+							<?php if($car['Available'] == 0): ?>
+								<p>This car is currently rented.</p>
+							<?php else: ?>
+								<p>This car is currently available.</p>
+							<?php endif; ?>
+							<hr />
+						</div>
+					</div>
+				</div>
+			<?php endforeach; ?>
+		</div>
+	</div>
+</div>
+
+			
+<?php include("../Views/footer.php"); ?>
